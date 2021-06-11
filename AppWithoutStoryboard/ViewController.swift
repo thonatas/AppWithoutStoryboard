@@ -15,6 +15,15 @@ class ViewController: UIViewController {
         self.view = view
     }
     
+    lazy var contentViewSize = CGSize(width: self.view.frame.width, height: self.view.frame.height + 100)
+    
+    lazy var scrollView: UIScrollView = {
+        let scrollView = UIScrollView()
+        scrollView.contentSize = contentViewSize
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        return scrollView
+    }()
+    
     let mainImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(named: "monterey")
@@ -77,13 +86,9 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.addSubview(mainImageView)
-        view.addSubview(titleLabel)
-        view.addSubview(firstImageView)
-        view.addSubview(secondImageView)
-        view.addSubview(thirdImageView)
-        view.addSubview(textLabel)
+        view.addSubview(scrollView)
         
+        scrollViewConstraints()
         mainImageViewConstraints()
         titleLabelConstraints()
         firstImageViewConstraints()
@@ -92,20 +97,30 @@ class ViewController: UIViewController {
         textLabelConstraints()
     }
     
+    func scrollViewConstraints() {
+        scrollView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 0).isActive = true
+        scrollView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 0).isActive = true
+        scrollView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: 0).isActive = true
+        scrollView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: 0).isActive = true
+    }
+    
     func mainImageViewConstraints() {
-        mainImageView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 0).isActive = true
+        scrollView.addSubview(mainImageView)
+        mainImageView.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 0).isActive = true
         mainImageView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 0).isActive = true
         mainImageView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: 0).isActive = true
         mainImageView.heightAnchor.constraint(equalTo: self.view.heightAnchor, multiplier: 0.3).isActive = true
     }
     
     func titleLabelConstraints() {
+        scrollView.addSubview(titleLabel)
         titleLabel.topAnchor.constraint(equalTo: mainImageView.bottomAnchor, constant: 15).isActive = true
         titleLabel.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: 15).isActive = true
         titleLabel.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 15).isActive = true
     }
     
     func firstImageViewConstraints() {
+        scrollView.addSubview(firstImageView)
         firstImageView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 15).isActive = true
         firstImageView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 0).isActive = true
         firstImageView.heightAnchor.constraint(equalTo: self.view.heightAnchor, multiplier: 0.15).isActive = true
@@ -113,6 +128,7 @@ class ViewController: UIViewController {
     }
     
     func secondImageViewConstraints() {
+        scrollView.addSubview(secondImageView)
         secondImageView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 15).isActive = true
         secondImageView.leadingAnchor.constraint(equalTo: firstImageView.trailingAnchor, constant: 0).isActive = true
         secondImageView.heightAnchor.constraint(equalTo: firstImageView.heightAnchor, multiplier: 1).isActive = true
@@ -120,6 +136,7 @@ class ViewController: UIViewController {
     }
     
     func thirdImageViewConstraints() {
+        scrollView.addSubview(thirdImageView)
         thirdImageView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 15).isActive = true
         thirdImageView.leadingAnchor.constraint(equalTo: secondImageView.trailingAnchor, constant: 0).isActive = true
         thirdImageView.heightAnchor.constraint(equalTo: firstImageView.heightAnchor, multiplier: 1).isActive = true
@@ -127,6 +144,7 @@ class ViewController: UIViewController {
     }
     
     func textLabelConstraints() {
+        scrollView.addSubview(textLabel)
         textLabel.topAnchor.constraint(equalTo: firstImageView.bottomAnchor, constant: 15).isActive = true
         textLabel.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 20).isActive = true
         textLabel.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -20).isActive = true
